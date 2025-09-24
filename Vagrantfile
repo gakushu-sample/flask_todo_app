@@ -23,6 +23,10 @@ Vagrant.configure("2") do |config|
       # パッケージのインストール
       sudo dnf install -y python3.12 python3.12-pip
 
+      # pycファイルの生成を無効にする環境変数を設定
+      echo 'export PYTHONDONTWRITEBYTECODE=1' >> /etc/environment
+      echo 'export PYTHONDONTWRITEBYTECODE=1' >> ~/.bashrc
+
       # MariaDB 10.11 のインストール
       # MariaDB公式リポジトリを追加
       sudo curl -LsS https://r.mariadb.com/downloads/mariadb_repo_setup | sudo bash -s -- --mariadb-server-version="10.11"
@@ -46,6 +50,10 @@ Vagrant.configure("2") do |config|
       sudo mysql -e "CREATE USER 'app'@'%' IDENTIFIED BY 'app_password';"
       sudo mysql -e "GRANT ALL PRIVILEGES ON todo_app.* TO 'app'@'localhost';"
       sudo mysql -e "GRANT ALL PRIVILEGES ON todo_app.* TO 'app'@'%';"
+      sudo mysql -e "FLUSH PRIVILEGES;"
+
+      # テストコード実行用のユーザーを追加
+      sudo mysql -e "GRANT ALL PRIVILEGES ON todo_app_test.* TO 'Test'@'localhost' IDENTIFIED BY 'Test';"
       sudo mysql -e "FLUSH PRIVILEGES;"
 
     SHELL

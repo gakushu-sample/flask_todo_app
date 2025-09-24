@@ -73,3 +73,15 @@ mysql todo_app -e "create table todos (\
     primary key (id)\
 )"
 ```
+
+あとはテスト用の DB も作ります。
+
+```bash
+mysql -e "create database todo_app_test"
+mysql todo_app_test -e "create table todos (\
+    id int not null auto_increment,\
+    task varchar(100) not null,\
+    completion_flg tinyint unsigned not null default 0,\
+    primary key (id)\
+)"
+```

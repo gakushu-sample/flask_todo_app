@@ -1,10 +1,27 @@
 from flask import Flask, jsonify, render_template, request
 
-from models import get_db
+from models import get_db, init_db
 from models.todos import Todo
 
+
+class Config:
+    """本番環境用のコンフィグ"""
+
+    DATABASE_URL = "mysql+pymysql://app:app_password@localhost/todo_app"
+
+
+class TestConfig:
+    """テスト環境用のコンフィグ"""
+
+    DATABASE_URL = "mysql+pymysql://Test:Test@localhost/todo_app_test"
+
+
 app = Flask(__name__)
+app.config.from_object(Config)
 app.json.ensure_ascii = False  # type: ignore
+
+# データベースを初期化
+init_db(app)
 
 
 @app.route("/")

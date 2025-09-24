@@ -1,3 +1,6 @@
 .venv*
 .vagrant*
 .mypy_cache*
+.coverage
+.pytest_cache*
+htmlcov*

@@ -1,4 +1,9 @@
 {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "flake8.args": [
+        "--config=.flake8"
+    ],
     "cSpell.words": [
         "addopts",
         "autoflush",
@@ -11,11 +16,14 @@
         "jsonify",
         "mypy",
         "mysqld",
+        "pycache",
         "pytest",
         "PYTHONDONTWRITEBYTECODE",
+        "repr",
         "rockylinux",
         "sessionmaker",
         "setenforce",
+        "tagname",
         "testpaths",
         "tinyint",
         "varchar",

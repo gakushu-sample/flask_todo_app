@@ -1,0 +1,29 @@
+{
+  "name": "flask_todo_app",
+  "version": "1.0.0",
+  "description": "Flask で ToDo アプリを作成する。   Linux 環境では、すべて root ユーザで作業をしている前提でコマンドを記載しています。",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gakushu-sample/flask_todo_app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gakushu-sample/flask_todo_app/issues"
+  },
+  "homepage": "https://github.com/gakushu-sample/flask_todo_app#readme",
+  "dependencies": {
+    "eslint": "^9.36.0",
+    "htmlhint": "^1.7.1"
+  }
+}

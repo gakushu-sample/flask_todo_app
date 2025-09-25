@@ -85,3 +85,31 @@ mysql todo_app_test -e "create table todos (\
     primary key (id)\
 )"
 ```
+
+## Flask アプリを起動(Linux)
+
+```bash
+python3.12 /vagrant/app.py
+```
+
+起動したらブラウザで http://192.168.33.11 にアクセスすれば観れるようになっているはず。
+
+## pytest の実行方法(Linux)
+
+必要なライブラリはすでに入っているはずなので、以下の通り実行します。
+
+```bash
+cd /vagrant
+python3.12 -m pytest
+```
+
+## その他
+
+### ESLint
+
+VS Code の拡張機能で ESLint を入れた場合に必要なもの。  
+VS Code でコンソールを起動し（ `ctrl + @` ）、コマンドを実行します。
+
+```bash
+npm install
+```

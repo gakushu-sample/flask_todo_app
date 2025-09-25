@@ -1,473 +1,104 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TODO管理 - Flask TODO アプリ</title>
-    <!-- Google Fonts - Noto Sans JP & Roboto -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Noto Sans JP', 'Roboto', sans-serif;
-        }
-        code, .font-monospace {
-            font-family: 'Roboto Mono', 'Noto Sans JP', monospace;
-        }
-        .english-text {
-            font-family: 'Roboto', 'Noto Sans JP', sans-serif;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TODO管理 - Flask TODO アプリ</title>
+  <!-- Google Fonts - Noto Sans JP & Roboto -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" defer></script>
+  <!-- TODO管理用JavaScript -->
+  <script src="/static/js/todo.js" defer></script>
+  <style>
+    body {
+      font-family: 'Noto Sans JP', 'Roboto', sans-serif;
+    }
+
+    code,
+    .font-monospace {
+      font-family: 'Roboto Mono', 'Noto Sans JP', monospace;
+    }
+
+    .english-text {
+      font-family: 'Roboto', 'Noto Sans JP', sans-serif;
+    }
+  </style>
 </head>
+
 <body class="bg-light">
-    <div class="container py-5">
-        <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <div class="card shadow">
-                    <div class="card-body p-5">
-                        <div class="d-flex justify-content-between align-items-center mb-4">
-                            <div>
-                                <h1 class="display-5 text-primary">
-                                    <i class="bi bi-check2-square"></i> TODO管理
-                                </h1>
-                                <p class="lead text-muted mb-0">TODOアイテムを管理しましょう</p>
-                            </div>
-                            <a href="/" class="btn btn-outline-secondary">
-                                <i class="bi bi-arrow-left"></i> 戻る
-                            </a>
-                        </div>
-
-                        <!-- TODO作成・更新フォーム -->
-                        <div class="card mb-4">
-                            <div class="card-header">
-                                <h5 class="card-title mb-0">
-                                    <i class="bi bi-plus-circle"></i> 新しいTODOを追加
-                                </h5>
-                            </div>
-                            <div class="card-body">
-                                <form id="todoForm">
-                                    <div class="row g-3">
-                                        <div class="col-md-8">
-                                            <input type="text" class="form-control" id="taskInput" placeholder="TODOを入力してください" required>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <button type="submit" class="btn btn-primary w-100">
-                                                <i class="bi bi-plus"></i> 追加
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <input type="hidden" id="todoId" value="">
-                                </form>
-                            </div>
-                        </div>
-
-                        <!-- TODO一覧 -->
-                        <div class="card">
-                            <div class="card-header d-flex justify-content-between align-items-center">
-                                <h5 class="card-title mb-0">
-                                    <i class="bi bi-list-ul"></i> TODO一覧
-                                </h5>
-                                <button class="btn btn-outline-primary btn-sm" id="refreshBtn">
-                                    <i class="bi bi-arrow-clockwise"></i> 更新
-                                </button>
-                            </div>
-                            <div class="card-body">
-                                <div id="todoList" class="list-group">
-                                    <div class="text-center text-muted py-4">
-                                        <i class="bi bi-hourglass-split"></i> 読み込み中...
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="card shadow">
+          <div class="card-body p-5">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <div>
+                <h1 class="display-5 text-primary">
+                  <i class="bi bi-check2-square"></i> TODO管理
+                </h1>
+                <p class="lead text-muted mb-0">TODOアイテムを管理しましょう</p>
+              </div>
+              <a href="/" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left"></i> 戻る
+              </a>
             </div>
+
+            <!-- TODO作成・更新フォーム -->
+            <div class="card mb-4">
+              <div class="card-header">
+                <h5 class="card-title mb-0">
+                  <i class="bi bi-plus-circle"></i> 新しいTODOを追加
+                </h5>
+              </div>
+              <div class="card-body">
+                <form id="todoForm">
+                  <div class="row g-3">
+                    <div class="col-md-8">
+                      <input type="text" class="form-control" id="taskInput" placeholder="TODOを入力してください" required>
+                    </div>
+                    <div class="col-md-4">
+                      <button type="submit" class="btn btn-primary w-100">
+                        <i class="bi bi-plus"></i> 追加
+                      </button>
+                    </div>
+                  </div>
+                  <input type="hidden" id="todoId" value="">
+                </form>
+              </div>
+            </div>
+
+            <!-- TODO一覧 -->
+            <div class="card">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0">
+                  <i class="bi bi-list-ul"></i> TODO一覧
+                </h5>
+                <button class="btn btn-outline-primary btn-sm" id="refreshBtn">
+                  <i class="bi bi-arrow-clockwise"></i> 更新
+                </button>
+              </div>
+              <div class="card-body">
+                <div id="todoList" class="list-group">
+                  <div class="text-center text-muted py-4">
+                    <i class="bi bi-hourglass-split"></i> 読み込み中...
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script>
-        // ========================================
-        // 初期化処理
-        // ========================================
-
-        // ページが完全に読み込まれた後に実行される処理
-        document.addEventListener('DOMContentLoaded', function() {
-            // 初期表示としてTODO一覧を取得・表示
-            loadTodos();
-
-            // 「更新」ボタンがクリックされた時にTODO一覧を再読み込み
-            document.getElementById('refreshBtn').addEventListener('click', function() {
-                loadTodos();
-            });
-        });
-
-        // ========================================
-        // TODO一覧の表示・管理
-        // ========================================
-
-        /**
-         * サーバーからTODO一覧を取得して画面に表示する
-         * 取得したTODOに対してイベントリスナーも設定する
-         */
-        function loadTodos() {
-            // サーバーの/todosエンドポイントにGETリクエストを送信
-            fetch('/todos')
-                .then(response => response.json()) // レスポンスをJSON形式で解析
-                .then(todos => {
-                    const todoList = document.getElementById('todoList');
-
-                    // TODOが0件の場合の表示
-                    if (todos.length === 0) {
-                        todoList.innerHTML = '<div class="text-center text-muted py-4"><i class="bi bi-inbox"></i> TODOがありません</div>';
-                        return;
-                    }
-
-                    // TODO一覧をHTMLとして生成
-                    // 各TODOには以下の要素を含める：
-                    // - チェックボックス（完了状態の切り替え用）
-                    // - テキスト入力（TODO内容の編集用）
-                    // - 削除ボタン
-                    todoList.innerHTML = todos.map(todo => `
-                        <div class="list-group-item" data-todo-id="${todo.id}">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="d-flex align-items-center flex-grow-1 me-3">
-                                    <input type="checkbox" class="form-check-input me-3 todo-checkbox" ${todo.completion_flg ? 'checked' : ''}>
-                                    <input type="text" class="form-control form-control-sm todo-task-input"
-                                           value="${escapeHtml(todo.task)}"
-                                           style="${todo.completion_flg ? 'text-decoration: line-through; color: #6c757d;' : ''}">
-                                </div>
-                                <div class="btn-group btn-group-sm">
-                                    <button class="btn btn-outline-danger todo-delete-btn">
-                                        <i class="bi bi-trash"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    `).join('');
-
-                    // 生成したTODO要素に対してイベントリスナーを設定
-                    addTodoEventListeners();
-                })
-                .catch(error => {
-                    // エラーが発生した場合の表示
-                    console.error('Error:', error);
-                    document.getElementById('todoList').innerHTML = '<div class="alert alert-danger">エラーが発生しました</div>';
-                });
-        }
-
-        // ========================================
-        // フォーム処理
-        // ========================================
-
-        // TODO作成・更新フォームの送信処理
-        document.getElementById('todoForm').addEventListener('submit', function(e) {
-            // フォームの通常の送信動作をキャンセル（ページがリロードされないようにする）
-            e.preventDefault();
-
-            // フォームの入力値を取得
-            const taskInput = document.getElementById('taskInput');
-            const todoId = document.getElementById('todoId');
-            const task = taskInput.value.trim();
-
-            // タスクが空の場合は何もしない
-            if (!task) return;
-
-            // サーバーに送信するデータを準備
-            const data = { task: task };
-            // 隠しフィールドにIDが設定されている場合は更新処理
-            if (todoId.value) {
-                data.id = parseInt(todoId.value);
-            }
-
-            // サーバーにPOSTリクエストを送信
-            fetch('/todos', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data)
-            })
-            .then(response => response.json())
-            .then(result => {
-                if (result.code === 200) {
-                    // 成功時：フォームをクリアして一覧を更新
-                    taskInput.value = '';
-                    todoId.value = '';
-                    loadTodos();
-                    showAlert('success', todoId.value ? 'TODOを更新しました' : 'TODOを追加しました');
-                } else {
-                    // エラー時：エラーメッセージを表示
-                    showAlert('danger', result.message || 'エラーが発生しました');
-                }
-            })
-            .catch(error => {
-                // ネットワークエラーなどの場合
-                console.error('Error:', error);
-                showAlert('danger', 'エラーが発生しました');
-            });
-        });
-
-        // ========================================
-        // イベントリスナー管理
-        // ========================================
-
-        /**
-         * 動的に生成されたTODO要素に対してイベントリスナーを設定する
-         * この関数はTODO一覧が更新されるたびに呼び出される
-         */
-        function addTodoEventListeners() {
-            // チェックボックスのイベント：完了状態の切り替え
-            document.querySelectorAll('.todo-checkbox').forEach(checkbox => {
-                checkbox.addEventListener('change', function() {
-                    // クリックされたチェックボックスが属するTODOアイテムを特定
-                    const todoItem = this.closest('[data-todo-id]');
-                    const id = parseInt(todoItem.getAttribute('data-todo-id'));
-                    const completed = this.checked;
-                    toggleTodo(id, completed);
-                });
-            });
-
-            // テキスト入力のイベント：TODO内容の編集
-            document.querySelectorAll('.todo-task-input').forEach(input => {
-                input.addEventListener('change', function() {
-                    // 変更されたテキスト入力が属するTODOアイテムを特定
-                    const todoItem = this.closest('[data-todo-id]');
-                    const id = parseInt(todoItem.getAttribute('data-todo-id'));
-                    updateTodo(id);
-                });
-            });
-
-            // 削除ボタンのイベント：TODOの削除
-            document.querySelectorAll('.todo-delete-btn').forEach(button => {
-                button.addEventListener('click', function() {
-                    // クリックされた削除ボタンが属するTODOアイテムを特定
-                    const todoItem = this.closest('[data-todo-id]');
-                    const id = parseInt(todoItem.getAttribute('data-todo-id'));
-                    deleteTodo(id);
-                });
-            });
-        }
-
-        // ========================================
-        // TODO操作関数
-        // ========================================
-
-        /**
-         * TODOの完了状態を切り替える
-         * @param {number} id - TODOのID
-         * @param {boolean} completed - 完了状態（true: 完了, false: 未完了）
-         */
-        function toggleTodo(id, completed) {
-            // 指定されたIDのTODOアイテムを取得
-            const todoItem = document.querySelector(`[data-todo-id="${id}"]`);
-            const taskInput = todoItem.querySelector('.todo-task-input');
-            const task = taskInput.value.trim();
-
-            // タスクが空の場合はエラー
-            if (!task) {
-                showAlert('danger', 'タスクが空です');
-                loadTodos(); // 状態を元に戻す
-                return;
-            }
-
-            // 即座にUIを更新（取り消し線の表示/非表示）
-            updateTaskAppearance(id, completed);
-
-            // サーバーに完了状態の変更を送信
-            fetch('/todos', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    id: id,
-                    task: task,
-                    completion_flg: completed ? 1 : 0
-                })
-            })
-            .then(response => response.json())
-            .then(result => {
-                if (result.code === 200) {
-                    // 成功時：適切なメッセージを表示
-                    const message = completed ? 'TODOを完了にしました' : 'TODOを未完了にしました';
-                    showAlert('success', message);
-                } else {
-                    // エラー時：エラーメッセージを表示してUIを元に戻す
-                    showAlert('danger', result.message || 'エラーが発生しました');
-                    updateTaskAppearance(id, !completed);
-                }
-            })
-            .catch(error => {
-                // ネットワークエラー時：エラーメッセージを表示してUIを元に戻す
-                console.error('Error:', error);
-                showAlert('danger', 'エラーが発生しました');
-                updateTaskAppearance(id, !completed);
-            });
-        }
-
-        /**
-         * TODOの見た目を更新する（取り消し線の表示/非表示）
-         * @param {number} id - TODOのID
-         * @param {boolean} completed - 完了状態
-         */
-        function updateTaskAppearance(id, completed) {
-            const todoItem = document.querySelector(`[data-todo-id="${id}"]`);
-            const taskInput = todoItem.querySelector('.todo-task-input');
-
-            if (completed) {
-                // 完了時：取り消し線とグレーアウトを適用
-                taskInput.style.textDecoration = 'line-through';
-                taskInput.style.color = '#6c757d';
-            } else {
-                // 未完了時：通常の表示に戻す
-                taskInput.style.textDecoration = 'none';
-                taskInput.style.color = '';
-            }
-        }
-
-        /**
-         * TODOの内容を更新する
-         * @param {number} id - TODOのID
-         */
-        function updateTodo(id) {
-            // 指定されたIDのTODOアイテムを取得
-            const todoItem = document.querySelector(`[data-todo-id="${id}"]`);
-            const taskInput = todoItem.querySelector('.todo-task-input');
-            const task = taskInput.value.trim();
-
-            // タスクが空の場合はエラー
-            if (!task) {
-                showAlert('danger', 'タスクが空です');
-                loadTodos(); // 状態を元に戻す
-                return;
-            }
-
-            // チェックボックスの現在の状態も取得
-            const checkbox = todoItem.querySelector('.todo-checkbox');
-            const completed = checkbox ? checkbox.checked : false;
-
-            // サーバーにTODOの更新を送信
-            fetch('/todos', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    id: id,
-                    task: task,
-                    completion_flg: completed ? 1 : 0
-                })
-            })
-            .then(response => response.json())
-            .then(result => {
-                if (result.code === 200) {
-                    // 成功時：成功メッセージを表示
-                    showAlert('success', 'TODOを更新しました');
-                } else {
-                    // エラー時：エラーメッセージを表示して一覧を再読み込み
-                    showAlert('danger', result.message || 'エラーが発生しました');
-                    loadTodos();
-                }
-            })
-            .catch(error => {
-                // ネットワークエラー時：エラーメッセージを表示して一覧を再読み込み
-                console.error('Error:', error);
-                showAlert('danger', 'エラーが発生しました');
-                loadTodos();
-            });
-        }
-
-
-        /**
-         * TODOを編集モードにする（フォーム用）
-         * 現在は使用されていないが、将来的な拡張のために残している
-         * @param {number} id - TODOのID
-         * @param {string} task - TODOの内容
-         */
-        function editTodo(id, task) {
-            document.getElementById('taskInput').value = task;
-            document.getElementById('todoId').value = id;
-            document.getElementById('taskInput').focus();
-        }
-
-        /**
-         * TODOを削除する
-         * @param {number} id - 削除するTODOのID
-         */
-        function deleteTodo(id) {
-            // 削除確認ダイアログを表示
-            if (!confirm('このTODOを削除しますか？')) return;
-
-            // サーバーにDELETEリクエストを送信
-            fetch(`/todos/${id}`, {
-                method: 'DELETE'
-            })
-            .then(response => response.json())
-            .then(result => {
-                if (result.code === 200) {
-                    // 成功時：一覧を更新して成功メッセージを表示
-                    loadTodos();
-                    showAlert('success', 'TODOを削除しました');
-                } else {
-                    // エラー時：エラーメッセージを表示
-                    showAlert('danger', result.message || 'エラーが発生しました');
-                }
-            })
-            .catch(error => {
-                // ネットワークエラー時：エラーメッセージを表示
-                console.error('Error:', error);
-                showAlert('danger', 'エラーが発生しました');
-            });
-        }
-
-        // ========================================
-        // ユーティリティ関数
-        // ========================================
-
-        /**
-         * アラートメッセージを表示する
-         * @param {string} type - アラートの種類（'success', 'danger', 'warning', 'info'）
-         * @param {string} message - 表示するメッセージ
-         */
-        function showAlert(type, message) {
-            // アラート要素を作成
-            const alertDiv = document.createElement('div');
-            alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
-            alertDiv.innerHTML = `
-                ${message}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            `;
-
-            // ページの上部にアラートを挿入
-            const container = document.querySelector('.container');
-            container.insertBefore(alertDiv, container.firstChild);
-
-            // 3秒後に自動でアラートを削除
-            setTimeout(() => {
-                if (alertDiv.parentNode) {
-                    alertDiv.remove();
-                }
-            }, 3000);
-        }
-
-        /**
-         * HTMLエスケープを行う（XSS攻撃を防ぐ）
-         * @param {string} text - エスケープするテキスト
-         * @returns {string} エスケープされたHTML
-         */
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-    </script>
 </body>
+
 </html>
